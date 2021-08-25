@@ -1,4 +1,5 @@
-﻿using MongoDBExemplo.Domain.Interfaces.Repositories;
+﻿using Microsoft.Extensions.Logging;
+using MongoDBExemplo.Domain.Interfaces.Repositories;
 using MongoDBExemplo.Domain.Interfaces.Services;
 using MongoDBExemplo.Domain.Models;
 using System;
@@ -10,21 +11,30 @@ namespace MongoDBExemplo.Domain.Services
     public class AssetService : IAssetService
     {
         private readonly IAssetRepository _repository;
+        private readonly ILogger<AssetService> _logger;
 
-        public AssetService(IAssetRepository repository)
+        public AssetService(IAssetRepository repository,
+                            ILogger<AssetService> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
-        public async Task<bool> InsertAsset(AssetModel model)
+        public async Task<bool> SaveAsset(AssetModel model)
         {
             try
             {
+                _logger.LogInformation("Chamada via service para gravar a informação");
+
                 await _repository.SaveAsset(model);
+                
+                _logger.LogInformation("Infomação salva com sucesso");
+                
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError("Erro ao salvar via service", ex);
                 throw;
             }
         }
@@ -35,8 +45,9 @@ namespace MongoDBExemplo.Domain.Services
             {
                 return await _repository.Get(string.IsNullOrEmpty(ticker) ? null : ticker.ToUpper());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError("Erro ao buscar Asset via service", ex);
                 throw;
             }
         }
@@ -47,8 +58,9 @@ namespace MongoDBExemplo.Domain.Services
             {
                 return await _repository.Delete(ticker.ToUpper());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError($"Erro ao deletar {ticker} via service", ex);
                 throw;
             }
         }

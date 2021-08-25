@@ -20,7 +20,7 @@ namespace MongoDBExemplo.WebApi.Controllers
         public async Task<IActionResult> Post([FromBody] AssetRequest request)
         {
             var model = request.ToDomain();
-            var result = await _service.InsertAsset(model);
+            var result = await _service.SaveAsset(model);
 
             return Ok(result);
         }
