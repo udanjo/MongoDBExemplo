@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/MongoDBExemplo
+/MongoDBExemplo.Domain/bin/Debug/net5.0
+/MongoDBExemplo.Domain/obj
+/MongoDbExemplo.Infra/bin/Debug/net5.0
+/MongoDbExemplo.Infra/obj
+/MongoDBExemplo.WebApi/bin/Debug/net5.0
+/MongoDBExemplo.WebApi/obj
